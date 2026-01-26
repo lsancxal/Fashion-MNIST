@@ -8,9 +8,11 @@ import torch
 
 from src.config import (
     RANDOM_SEED,
-    OUT_CHANNELS_1,
-    OUT_CHANNELS_2,
+    CONV_CHANNELS,
+    HIDDEN_SIZES,
     NUM_CLASSES,
+    IN_CHANNELS,
+    KERNEL_SIZE,
     USE_BATCH_NORM,
     LEARNING_RATE,
     NUM_EPOCHS,
@@ -43,16 +45,20 @@ def main():
     if USE_BATCH_NORM:
         print("\nUsing CNN with Batch Normalization")
         model = CNNBatchNorm(
-            out_1=OUT_CHANNELS_1,
-            out_2=OUT_CHANNELS_2,
-            num_classes=NUM_CLASSES
+            conv_channels=CONV_CHANNELS,
+            hidden_sizes=HIDDEN_SIZES,
+            num_classes=NUM_CLASSES,
+            in_channels=IN_CHANNELS,
+            kernel_size=KERNEL_SIZE,
         )
     else:
         print("\nUsing CNN without Batch Normalization")
         model = CNN(
-            out_1=OUT_CHANNELS_1,
-            out_2=OUT_CHANNELS_2,
-            num_classes=NUM_CLASSES
+            conv_channels=CONV_CHANNELS,
+            hidden_sizes=HIDDEN_SIZES,
+            num_classes=NUM_CLASSES,
+            in_channels=IN_CHANNELS,
+            kernel_size=KERNEL_SIZE,
         )
 
     print(f"Model architecture:\n{model}\n")
