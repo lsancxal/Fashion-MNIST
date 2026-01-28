@@ -21,7 +21,7 @@ from src.config import (
 from src.data import get_dataloaders
 from src.models import CNN, CNNBatchNorm
 from src.training import train
-from src.visualization import plot_sample, plot_training_results
+from src.visualization import plot_sample, plot_training_results, plot_confusion_matrix_with_stats
 
 
 def main():
@@ -76,7 +76,9 @@ def main():
     # Plot results
     plot_training_results(cost_list, accuracy_list)
 
-    print(f"\nFinal accuracy: {accuracy_list[-1]:.4f}")
+    # Plot confusion matrix for all 10 classes
+    print("\nGenerating confusion matrix...")
+    plot_confusion_matrix_with_stats(model, test_loader)
 
 
 if __name__ == "__main__":
