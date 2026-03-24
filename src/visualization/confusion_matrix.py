@@ -1,5 +1,7 @@
 """Confusion matrix visualization for Fashion-MNIST classification."""
 
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -8,7 +10,7 @@ from sklearn.metrics import confusion_matrix
 from .utils import CLASS_NAMES
 
 
-def plot_confusion_matrix(predictions, labels, normalize=True, figsize=(12, 10), show=True):
+def plot_confusion_matrix(predictions, labels, normalize=True, figsize=(12, 10), show=True, save_path=None):
     """
     Plot confusion matrix from pre-computed predictions.
     
@@ -45,13 +47,17 @@ def plot_confusion_matrix(predictions, labels, normalize=True, figsize=(12, 10),
     plt.yticks(rotation=0)
     plt.tight_layout()
     
+    if save_path:
+        os.makedirs(os.path.dirname(save_path) or '.', exist_ok=True)
+        fig.savefig(save_path, bbox_inches='tight', dpi=150)
+        print(f"  Saved: {save_path}")
     if show:
         plt.show()
     
     return fig, cm
 
 
-def plot_confusion_matrix_with_stats(predictions, labels, figsize=(14, 10), show=True):
+def plot_confusion_matrix_with_stats(predictions, labels, figsize=(14, 10), show=True, save_path=None):
     """
     Plot confusion matrix with per-class accuracy statistics.
     
@@ -98,6 +104,10 @@ def plot_confusion_matrix_with_stats(predictions, labels, figsize=(14, 10), show
     
     plt.tight_layout()
     
+    if save_path:
+        os.makedirs(os.path.dirname(save_path) or '.', exist_ok=True)
+        fig.savefig(save_path, bbox_inches='tight', dpi=150)
+        print(f"  Saved: {save_path}")
     if show:
         plt.show()
     

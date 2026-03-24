@@ -1,5 +1,7 @@
 """Utility functions for Fashion-MNIST visualization."""
 
+import os
+
 import matplotlib.pyplot as plt
 import torch
 
@@ -49,16 +51,23 @@ def get_predictions(model, data_loader):
     )
 
 
-def plot_sample(data_sample, show=True):
+def plot_sample(data_sample, show=True, save_path=None):
     """
     Display a single data sample.
     
     Args:
         data_sample: Tuple of (image_tensor, label).
         show: Whether to call plt.show().
+        save_path: Optional path to save the figure (e.g. output/sample_0.png).
     """
+    fig = plt.figure()
     image, label = data_sample
     plt.imshow(image.numpy().reshape(IMAGE_SIZE, IMAGE_SIZE), cmap='gray')
     plt.title(f'Label: {label}')
+    if save_path:
+        os.makedirs(os.path.dirname(save_path) or '.', exist_ok=True)
+        fig.savefig(save_path, bbox_inches='tight', dpi=150)
+        print(f"  Saved: {save_path}")
     if show:
         plt.show()
+    plt.close(fig)

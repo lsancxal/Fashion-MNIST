@@ -7,6 +7,7 @@ import torch
 IMAGE_SIZE = 28
 DATA_ROOT = ".fashion/data"
 BATCH_SIZE = 100
+OUTPUT_DIR = "output"  # Directory for saving plots
 
 # Model architecture settings
 CONV_CHANNELS = (16, 32)       # Output channels for each conv layer, e.g., (16, 32) or (16, 32, 64)

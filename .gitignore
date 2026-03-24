@@ -23,3 +23,6 @@ venv/
 # Models
 *.pth
 *.pt
+
+# Output
+output/

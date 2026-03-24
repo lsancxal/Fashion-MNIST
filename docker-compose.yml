@@ -1,0 +1,18 @@
+services:
+  fashion-mnist:
+    build: .
+    image: fashion-mnist:latest
+    container_name: fashion-mnist-trainer
+    volumes:
+      # Cache dataset between runs (avoids re-downloading Fashion-MNIST)
+      - fashion-data:/app/.fashion
+      # Save plots to host
+      - ./output:/app/output
+    environment:
+      - MPLBACKEND=Agg
+      - PYTHONUNBUFFERED=1
+    gpus: all
+
+volumes:
+  fashion-data:
+    name: fashion-mnist-data

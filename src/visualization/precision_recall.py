@@ -1,5 +1,7 @@
 """Precision and Recall visualization for Fashion-MNIST classification."""
 
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, recall_score, classification_report
@@ -26,7 +28,7 @@ def calculate_precision_recall(predictions, labels):
     }
 
 
-def _plot_metric_bar(values, macro_avg, metric_name, color_map, edge_color, figsize, show):
+def _plot_metric_bar(values, macro_avg, metric_name, color_map, edge_color, figsize, show, save_path=None):
     """
     Internal helper to plot a metric bar chart.
     
@@ -67,13 +69,17 @@ def _plot_metric_bar(values, macro_avg, metric_name, color_map, edge_color, figs
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
     
+    if save_path:
+        os.makedirs(os.path.dirname(save_path) or '.', exist_ok=True)
+        fig.savefig(save_path, bbox_inches='tight', dpi=150)
+        print(f"  Saved: {save_path}")
     if show:
         plt.show()
     
     return fig
 
 
-def plot_precision(predictions, labels, figsize=(10, 6), show=True):
+def plot_precision(predictions, labels, figsize=(10, 6), show=True, save_path=None):
     """
     Plot precision for all 10 classes as a bar chart.
     
@@ -89,12 +95,12 @@ def plot_precision(predictions, labels, figsize=(10, 6), show=True):
     metrics = calculate_precision_recall(predictions, labels)
     fig = _plot_metric_bar(
         metrics['precision'], metrics['macro_precision'],
-        'Precision', plt.cm.Greens, 'darkgreen', figsize, show
+        'Precision', plt.cm.Greens, 'darkgreen', figsize, show, save_path
     )
     return fig, metrics['precision']
 
 
-def plot_recall(predictions, labels, figsize=(10, 6), show=True):
+def plot_recall(predictions, labels, figsize=(10, 6), show=True, save_path=None):
     """
     Plot recall for all 10 classes as a bar chart.
     
@@ -110,7 +116,7 @@ def plot_recall(predictions, labels, figsize=(10, 6), show=True):
     metrics = calculate_precision_recall(predictions, labels)
     fig = _plot_metric_bar(
         metrics['recall'], metrics['macro_recall'],
-        'Recall', plt.cm.Blues, 'darkblue', figsize, show
+        'Recall', plt.cm.Blues, 'darkblue', figsize, show, save_path
     )
     return fig, metrics['recall']
 

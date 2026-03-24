@@ -4,6 +4,8 @@ Fashion-MNIST Classification with CNN
 Main entry point for training and evaluating CNN models on Fashion-MNIST dataset.
 """
 
+import os
+
 import torch
 
 from src.config import (
@@ -17,6 +19,7 @@ from src.config import (
     LEARNING_RATE,
     NUM_EPOCHS,
     DEVICE,
+    OUTPUT_DIR,
 )
 from src.data import get_dataloaders
 from src.models import CNN, CNNBatchNorm
@@ -54,7 +57,8 @@ def show_samples(dataset, num_samples=3):
     for i, sample in enumerate(dataset):
         if i >= num_samples:
             break
-        plot_sample(sample)
+        save_path = os.path.join(OUTPUT_DIR, f"sample_{i}.png")
+        plot_sample(sample, save_path=save_path)
 
 
 def evaluate_model(model, test_loader):
@@ -66,14 +70,23 @@ def evaluate_model(model, test_loader):
     
     # Confusion matrix
     print("Generating confusion matrix...")
-    plot_confusion_matrix_with_stats(predictions, labels)
+    plot_confusion_matrix_with_stats(
+        predictions, labels,
+        save_path=os.path.join(OUTPUT_DIR, "confusion_matrix.png")
+    )
     
     # Precision and recall plots
     print("Generating precision plot...")
-    plot_precision(predictions, labels)
+    plot_precision(
+        predictions, labels,
+        save_path=os.path.join(OUTPUT_DIR, "precision.png")
+    )
     
     print("Generating recall plot...")
-    plot_recall(predictions, labels)
+    plot_recall(
+        predictions, labels,
+        save_path=os.path.join(OUTPUT_DIR, "recall.png")
+    )
     
     # Classification report
     print_classification_report(predictions, labels)
@@ -83,6 +96,10 @@ def main():
     # Set random seed for reproducibility
     torch.manual_seed(RANDOM_SEED)
     print(f"Using device: {DEVICE}")
+
+    # Create output directory for plots
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    print(f"Plots will be saved to: {OUTPUT_DIR}/")
 
     # Load data
     print("Loading Fashion-MNIST dataset...")
@@ -106,7 +123,10 @@ def main():
     )
 
     # Plot training progress
-    plot_training_results(cost_list, accuracy_list)
+    plot_training_results(
+        cost_list, accuracy_list,
+        save_path=os.path.join(OUTPUT_DIR, "training_progress.png")
+    )
 
     # Evaluate and visualize results
     evaluate_model(model, test_loader)

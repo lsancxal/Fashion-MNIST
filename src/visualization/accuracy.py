@@ -1,9 +1,11 @@
 """Training visualization for Fashion-MNIST."""
 
+import os
+
 import matplotlib.pyplot as plt
 
 
-def plot_training_results(cost_list, accuracy_list, show=True):
+def plot_training_results(cost_list, accuracy_list, show=True, save_path=None):
     """
     Plot training cost and accuracy over epochs.
     
@@ -32,6 +34,10 @@ def plot_training_results(cost_list, accuracy_list, show=True):
     fig.tight_layout()
     plt.title('Training Progress')
     
+    if save_path:
+        os.makedirs(os.path.dirname(save_path) or '.', exist_ok=True)
+        fig.savefig(save_path, bbox_inches='tight', dpi=150)
+        print(f"  Saved: {save_path}")
     if show:
         plt.show()
     
